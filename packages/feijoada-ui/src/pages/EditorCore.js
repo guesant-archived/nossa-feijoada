@@ -3,6 +3,8 @@ import GroupContainer from "../components/GroupContainer";
 import GroupContainerBorder from "../components/GroupContainerBorder";
 import EDITOR_DEFAULT_TEMPLATE from "../vars/editor-default-template";
 
+import EditorCoreDoc from "./EditorCoreDoc";
+
 export default class EditorCore extends React.Component {
   constructor(props) {
     super(props);
