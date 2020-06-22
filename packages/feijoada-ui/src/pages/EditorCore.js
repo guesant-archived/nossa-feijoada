@@ -4,6 +4,7 @@ import GroupContainerBorder from "../components/GroupContainerBorder";
 import EDITOR_DEFAULT_TEMPLATE from "../vars/editor-default-template";
 
 import EditorCoreDoc from "./EditorCoreDoc";
+import EditorCoreSketch from "./EditorCoreSketch";
 
 export default class EditorCore extends React.Component {
   constructor(props) {
@@ -24,6 +25,19 @@ export default class EditorCore extends React.Component {
                   onSetState={async (state) =>
                     new Promise((resolve) => this.setState(state, resolve))}
                 />
+              </div>
+              <GroupSeparatorHorizontal />
+              <div className="tw-py-2">
+                <div>
+                  <EditorCoreSketch
+                    doc={this.state.doc}
+                    onSetState={async (state) => {
+                      await new Promise((resolve) =>
+                        this.setState(state, resolve)
+                      );
+                    }}
+                  />
+                </div>
               </div>
           </div>
             </div>
