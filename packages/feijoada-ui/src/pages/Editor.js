@@ -1,6 +1,7 @@
 import * as React from "react";
 import Header from "../components/Header";
 import EditorHeader from "./EditorHeader";
+import EditorCore from "./EditorCore";
 
 const Editor = () => (
   <div
@@ -10,6 +11,9 @@ const Editor = () => (
 
     <div className="tw-py-8">
       <EditorHeader />
+      <div className="tw-py-8">
+        <EditorCore />
+      </div>
     </div>
   </div>
 );
