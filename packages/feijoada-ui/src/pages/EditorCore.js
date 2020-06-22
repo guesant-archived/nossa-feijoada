@@ -14,6 +14,17 @@ export default class EditorCore extends React.Component {
     return (
       <GroupContainer>
         <GroupContainerBorder>
+          <div className="tw-flex-1">
+            <div className="tw-px-2">
+              <div className="tw-py-2">
+                <EditorCoreDoc
+                  doc={this.state.doc}
+                  onSetState={async (state) =>
+                    new Promise((resolve) => this.setState(state, resolve))}
+                />
+              </div>
+          </div>
+            </div>
         </GroupContainerBorder>
       </GroupContainer>
     );
