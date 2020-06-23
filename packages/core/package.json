@@ -13,9 +13,14 @@
   },
   "homepage": "https://github.com/guesant/nossa-feijoada#readme",
   "scripts": {
+    "build": "tsc -p . --declaration",
+    "dev": "tsc -p . --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {},
   "description": "",
-  "devDependencies": {}
+  "devDependencies": {
+    "tslib": "^2.0.0",
+    "typescript": "^3.9.5"
+  }
 }
