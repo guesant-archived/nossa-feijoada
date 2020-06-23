@@ -17,7 +17,5 @@
   },
   "dependencies": {},
   "description": "",
-  "devDependencies": {
-    "rollup": "^2.18.0"
-  }
+  "devDependencies": {}
 }
