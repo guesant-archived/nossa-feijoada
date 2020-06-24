@@ -1,3 +1,9 @@
+import { fabric as fabricTypes } from "fabric";
+
+export type IBSIMTemplateSupportedObjects =
+  | fabricTypes.Image
+  | fabricTypes.Textbox;
+
 export interface IBSIMTemplateStatic {
   url: string;
   position: "back" | "front";
