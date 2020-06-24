@@ -13,8 +13,9 @@
   },
   "homepage": "https://github.com/guesant/nossa-feijoada#readme",
   "scripts": {
-    "build": "tsc -p . --declaration",
-    "dev": "tsc -p . --watch",
+    "build": "npm run build:project",
+    "build:project": "tsc -p . --declaration",
+    "dev:project": "tsc -p . --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {},
