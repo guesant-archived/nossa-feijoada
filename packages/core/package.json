@@ -1,7 +1,7 @@
 {
   "name": "@bsim/core",
   "version": "0.0.0",
-  "main": "index.js",
+  "main": "dist/js/main.bundle.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/guesant/nossa-feijoada.git"
@@ -13,15 +13,17 @@
   },
   "homepage": "https://github.com/guesant/nossa-feijoada#readme",
   "scripts": {
-    "build": "npm run build:project",
-    "build:project": "tsc -p . --declaration",
-    "dev:project": "tsc -p . --watch",
+    "build": "rollup --config rollup.config.js",
+    "dev:watch": "rollup --config rollup.config.js --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {},
   "description": "",
   "devDependencies": {
+    "@rollup/plugin-typescript": "^5.0.0",
     "@types/fabric": "^3.6.5",
+    "rollup": "^2.18.0",
+    "rollup-plugin-terser": "^6.1.0",
     "tslib": "^2.0.0",
     "typescript": "^3.9.5"
   }
