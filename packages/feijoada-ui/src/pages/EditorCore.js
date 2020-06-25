@@ -1,9 +1,13 @@
 import * as React from "react";
+import {
+  GroupSeparatorVertical,
+  GroupSeparatorHorizontal,
+} from "../components/GroupSeparator";
 import GroupContainer from "../components/GroupContainer";
 import GroupContainerBorder from "../components/GroupContainerBorder";
 import EDITOR_DEFAULT_TEMPLATE from "../vars/editor-default-template";
-
 import EditorCoreDoc from "./EditorCoreDoc";
+import EditorCoreInfo from "./EditorCoreInfo";
 import EditorCoreSketch from "./EditorCoreSketch";
 
 export default class EditorCore extends React.Component {
@@ -40,6 +44,11 @@ export default class EditorCore extends React.Component {
                 </div>
               </div>
           </div>
+          </div>
+          <GroupSeparatorVertical />
+          <div>
+            <div ref={this.refdiv}></div>
+            <EditorCoreInfo doc={this.state.doc} />
             </div>
         </GroupContainerBorder>
       </GroupContainer>
