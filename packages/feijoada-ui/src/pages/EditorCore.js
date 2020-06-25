@@ -9,6 +9,9 @@ import EDITOR_DEFAULT_TEMPLATE from "../vars/editor-default-template";
 import EditorCoreDoc from "./EditorCoreDoc";
 import EditorCoreInfo from "./EditorCoreInfo";
 import EditorCoreSketch from "./EditorCoreSketch";
+import {
+  ADD_OBJECT,
+} from "../utils/template-mutations";
 
 export default class EditorCore extends React.Component {
   constructor(props) {
@@ -16,6 +19,11 @@ export default class EditorCore extends React.Component {
     this.state = {
       doc: EDITOR_DEFAULT_TEMPLATE,
     };
+  }
+  async addObject(fabricObject) {
+    await new Promise((resolve) => {
+      this.setState(ADD_OBJECT({ object: fabricObject.toObject() }), resolve);
+    });
   }
   render() {
     return (
