@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as bsimCore from "@bsim/core";
 import {
   GroupSeparatorVertical,
   GroupSeparatorHorizontal,
@@ -10,12 +11,27 @@ import EditorCoreDoc from "./EditorCoreDoc";
 import EditorCoreInfo from "./EditorCoreInfo";
 import EditorCoreSketch from "./EditorCoreSketch";
 
+const {
+  lib: {
+    model: {
+      mutations: {
+        ADD_OBJECT,
+      },
+    },
+  },
+} = bsimCore;
+
 export default class EditorCore extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       doc: EDITOR_DEFAULT_TEMPLATE,
     };
+  }
+  async addObject(fabricObject) {
+    await new Promise((resolve) => {
+      this.setState(ADD_OBJECT({ object: fabricObject.toObject() }), resolve);
+    });
   }
   render() {
     return (
