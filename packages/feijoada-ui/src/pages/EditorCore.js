@@ -25,6 +25,15 @@ const {
   },
 } = bsimCore;
 
+const GET_CANVAS = () => window.EDITOR_CANVAS;
+const SET_CANVAS = (canvas) => {
+  window.EDITOR_CANVAS = canvas;
+  return canvas;
+};
+const DELETE_CANVAS = () => {
+  delete window.EDITOR_CANVAS;
+};
+
 export default class EditorCore extends React.Component {
   constructor(props) {
     super(props);
