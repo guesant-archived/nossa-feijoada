@@ -157,6 +157,7 @@ export default class EditorCore extends React.Component {
                       await new Promise((resolve) =>
                         this.setState(state, resolve)
                       );
+                      await this.forceRenderFabric();
                     }}
                   />
                 </div>
