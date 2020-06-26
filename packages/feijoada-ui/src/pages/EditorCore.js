@@ -15,6 +15,7 @@ import EditorCoreSketch from "./EditorCoreSketch";
 const {
   fabric: {
     getCanvas: { canvasByDOM },
+    render: { renderTemplate },
   },
   lib: {
     model: {
@@ -33,6 +34,8 @@ const _canvasByDOM = canvasByDOM({
   fabric,
   document: window.document,
 });
+const _renderTemplate = renderTemplate({ fabric });
+
 const GET_CANVAS = () => window.EDITOR_CANVAS;
 const SET_CANVAS = (canvas) => {
   window.EDITOR_CANVAS = canvas;
@@ -77,6 +80,11 @@ export default class EditorCore extends React.Component {
     });
     canvas.set(this.state.doc.model.sketch);
     return SET_CANVAS(canvas);
+  }
+  async renderFabric() {
+    await _renderTemplate({ canvas: GET_CANVAS() })({
+      doc: this.state.doc,
+    })();
   }
   async removeStaticImage(idx) {
     await new Promise((resolve) => {
