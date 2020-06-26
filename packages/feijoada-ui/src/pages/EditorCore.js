@@ -68,7 +68,7 @@ export default class EditorCore extends React.Component {
       DELETE_CANVAS();
     }
   }
-  async getCanvas() {
+  getCanvas() {
     return _canvasByDOM({
       wrapper: this.refdiv.current,
       id: "pgs--editr--canvas-plgrnd",
@@ -76,7 +76,9 @@ export default class EditorCore extends React.Component {
   }
   async setupCanvas() {
     await this.disposeCanvas();
-    const canvas = this.getCanvas({
+
+    const _getCanvas = this.getCanvas();
+    const canvas = _getCanvas({
       doc: this.state.doc,
     });
     canvas.set(this.state.doc.model.sketch);
