@@ -83,6 +83,9 @@ export default class EditorCore extends React.Component {
     canvas.on("object:modified", () => {
       this.exportObjects();
     });
+    canvas.on("object:removed", () => {
+      this.exportObjects();
+    });
     return SET_CANVAS(canvas);
   }
   async renderFabric() {
