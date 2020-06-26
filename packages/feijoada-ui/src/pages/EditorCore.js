@@ -61,13 +61,6 @@ export default class EditorCore extends React.Component {
       DELETE_CANVAS();
     }
   }
-  async disposeCanvas() {
-    if (GET_CANVAS()) {
-      const canvas = GET_CANVAS();
-      canvas.dispose();
-      DELETE_CANVAS();
-    }
-  }
   getCanvas() {
     return _canvasByDOM({
       wrapper: this.refdiv.current,
