@@ -93,6 +93,10 @@ export default class EditorCore extends React.Component {
       doc: this.state.doc,
     })();
   }
+  async forceRenderFabric() {
+    await this.setupCanvas();
+    await this.renderFabric();
+  }
   async exportObjects() {
     await new Promise((resolve) => {
       const canvas = GET_CANVAS();
