@@ -70,6 +70,14 @@ export default class EditorCore extends React.Component {
       id: "pgs--editr--canvas-plgrnd",
     });
   }
+  async setupCanvas() {
+    await this.disposeCanvas();
+    const canvas = this.getCanvas({
+      doc: this.state.doc,
+    });
+    canvas.set(this.state.doc.model.sketch);
+    return SET_CANVAS(canvas);
+  }
   async removeStaticImage(idx) {
     await new Promise((resolve) => {
       this.setState(REMOVE_STATIC_IMAGE({ idx }), resolve);
