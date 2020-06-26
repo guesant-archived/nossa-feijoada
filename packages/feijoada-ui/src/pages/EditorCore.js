@@ -48,6 +48,13 @@ export default class EditorCore extends React.Component {
     }
   }
   }
+  async disposeCanvas() {
+    if (GET_CANVAS()) {
+      const canvas = GET_CANVAS();
+      canvas.dispose();
+      DELETE_CANVAS();
+    }
+  }
   async removeStaticImage(idx) {
     await new Promise((resolve) => {
       this.setState(REMOVE_STATIC_IMAGE({ idx }), resolve);
