@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as bsimCore from "@bsim/core";
+import { fabric } from "fabric";
 import {
   GroupSeparatorVertical,
   GroupSeparatorHorizontal,
@@ -12,6 +13,9 @@ import EditorCoreInfo from "./EditorCoreInfo";
 import EditorCoreSketch from "./EditorCoreSketch";
 
 const {
+  fabric: {
+    getCanvas: { canvasByDOM },
+  },
   lib: {
     model: {
       mutations: {
@@ -25,6 +29,10 @@ const {
   },
 } = bsimCore;
 
+const _canvasByDOM = canvasByDOM({
+  fabric,
+  document: window.document,
+});
 const GET_CANVAS = () => window.EDITOR_CANVAS;
 const SET_CANVAS = (canvas) => {
   window.EDITOR_CANVAS = canvas;
@@ -40,13 +48,7 @@ export default class EditorCore extends React.Component {
     this.state = {
       doc: EDITOR_DEFAULT_TEMPLATE,
     };
-  async disposeCanvas() {
-    if (GET_CANVAS()) {
-      const canvas = GET_CANVAS();
-      canvas.dispose();
-      DELETE_CANVAS();
-    }
-  }
+    this.refdiv = React.createRef();
   }
   async disposeCanvas() {
     if (GET_CANVAS()) {
@@ -54,6 +56,19 @@ export default class EditorCore extends React.Component {
       canvas.dispose();
       DELETE_CANVAS();
     }
+  }
+  async disposeCanvas() {
+    if (GET_CANVAS()) {
+      const canvas = GET_CANVAS();
+      canvas.dispose();
+      DELETE_CANVAS();
+    }
+  }
+  async getCanvas() {
+    return _canvasByDOM({
+      wrapper: this.refdiv.current,
+      id: "pgs--editr--canvas-plgrnd",
+    });
   }
   async removeStaticImage(idx) {
     await new Promise((resolve) => {
