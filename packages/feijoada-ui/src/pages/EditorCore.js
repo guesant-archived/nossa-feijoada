@@ -16,6 +16,7 @@ const {
     model: {
       mutations: {
         ADD_OBJECT,
+        UPDATE_OBJECT,
       },
     },
   },
@@ -31,6 +32,11 @@ export default class EditorCore extends React.Component {
   async addObject(fabricObject) {
     await new Promise((resolve) => {
       this.setState(ADD_OBJECT({ object: fabricObject.toObject() }), resolve);
+    });
+  }
+  async updateObject(idx, updatedObject) {
+    await new Promise((resolve) => {
+      this.setState(UPDATE_OBJECT({ idx, updatedObject }), resolve);
     });
   }
   render() {
