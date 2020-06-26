@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as bsimCore from "@bsim/core";
 import {
   GroupSeparatorVertical,
   GroupSeparatorHorizontal,
@@ -10,12 +11,51 @@ import EditorCoreDoc from "./EditorCoreDoc";
 import EditorCoreInfo from "./EditorCoreInfo";
 import EditorCoreSketch from "./EditorCoreSketch";
 
+const {
+  lib: {
+    model: {
+      mutations: {
+        ADD_OBJECT,
+        REMOVE_OBJECT,
+        UPDATE_OBJECT,
+        ADD_STATIC_IMAGE,
+        REMOVE_STATIC_IMAGE,
+      },
+    },
+  },
+} = bsimCore;
+
 export default class EditorCore extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       doc: EDITOR_DEFAULT_TEMPLATE,
     };
+  }
+  async removeStaticImage(idx) {
+    await new Promise((resolve) => {
+      this.setState(REMOVE_STATIC_IMAGE({ idx }), resolve);
+    });
+  }
+  async addStaticImage(staticImages) {
+    await new Promise((resolve) => {
+      this.setState(ADD_STATIC_IMAGE({ staticImages }), resolve);
+    });
+  }
+  async addObject(fabricObject) {
+    await new Promise((resolve) => {
+      this.setState(ADD_OBJECT({ object: fabricObject.toObject() }), resolve);
+    });
+  }
+  async removeObject(idx) {
+    await new Promise((resolve) => {
+      this.setState(REMOVE_OBJECT({ idx }), resolve);
+    });
+  }
+  async updateObject(idx, updatedObject) {
+    await new Promise((resolve) => {
+      this.setState(UPDATE_OBJECT({ idx, updatedObject }), resolve);
+    });
   }
   render() {
     return (
