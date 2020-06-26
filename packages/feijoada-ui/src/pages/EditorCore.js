@@ -24,6 +24,7 @@ const {
         REMOVE_OBJECT,
         UPDATE_OBJECT,
         ADD_STATIC_IMAGE,
+        GENERATE_FABRIC_EXPORTED,
         REMOVE_STATIC_IMAGE,
       },
     },
@@ -85,6 +86,21 @@ export default class EditorCore extends React.Component {
     await _renderTemplate({ canvas: GET_CANVAS() })({
       doc: this.state.doc,
     })();
+  }
+  async exportObjects() {
+    await new Promise((resolve) => {
+      const canvas = GET_CANVAS();
+      this.setState(
+        (state) =>
+          GENERATE_FABRIC_EXPORTED({
+            objects: canvas
+              .getObjects()
+              .slice(state.doc.model.staticImages.length)
+              .map((object) => object.toObject()),
+          })(state),
+        resolve,
+      );
+    });
   }
   async removeStaticImage(idx) {
     await new Promise((resolve) => {
