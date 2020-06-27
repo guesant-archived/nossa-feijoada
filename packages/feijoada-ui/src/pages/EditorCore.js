@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as bsimCore from "@bsim/core";
 import { fabric } from "fabric";
+import Form from "react-bootstrap/Form";
 import {
   GroupSeparatorVertical,
   GroupSeparatorHorizontal,
@@ -11,6 +12,7 @@ import EDITOR_DEFAULT_TEMPLATE from "../vars/editor-default-template";
 import EditorCoreDoc from "./EditorCoreDoc";
 import EditorCoreInfo from "./EditorCoreInfo";
 import EditorCoreSketch from "./EditorCoreSketch";
+import EditorCoreStaticList from "./EditorCoreStaticList";
 
 const {
   fabric: {
@@ -21,11 +23,12 @@ const {
     model: {
       mutations: {
         ADD_OBJECT,
-        REMOVE_OBJECT,
-        UPDATE_OBJECT,
         ADD_STATIC_IMAGE,
-        GENERATE_FABRIC_EXPORTED,
+        REMOVE_OBJECT,
         REMOVE_STATIC_IMAGE,
+        UPDATE_OBJECT,
+        UPDATE_STATIC,
+        GENERATE_FABRIC_EXPORTED,
       },
     },
   },
@@ -115,6 +118,11 @@ export default class EditorCore extends React.Component {
       this.setState(REMOVE_STATIC_IMAGE({ idx }), resolve);
     });
   }
+  async updateStatic(idx, updated) {
+    await new Promise((resolve) => {
+      this.setState(UPDATE_STATIC(idx, updated), resolve);
+    });
+  }
   async addStaticImage(staticImages) {
     await new Promise((resolve) => {
       this.setState(ADD_STATIC_IMAGE({ staticImages }), resolve);
@@ -130,9 +138,9 @@ export default class EditorCore extends React.Component {
       this.setState(REMOVE_OBJECT({ idx }), resolve);
     });
   }
-  async updateObject(idx, updatedObject) {
+  async updateObject(idx, updated) {
     await new Promise((resolve) => {
-      this.setState(UPDATE_OBJECT({ idx, updatedObject }), resolve);
+      this.setState(UPDATE_OBJECT(idx, updated), resolve);
     });
   }
   render() {
@@ -160,6 +168,24 @@ export default class EditorCore extends React.Component {
                       await this.forceRenderFabric();
                     }}
                   />
+                </div>
+                <div className="tw-mb-1">
+                  <Form.Group className="tw-mb-0">
+                    <Form.Label className="tw-sr-only">
+                      Imagens Estáticas
+                    </Form.Label>
+                    <EditorCoreStaticList
+                      staticImages={this.state.doc.model.staticImages}
+                      onStaticImageRemove={async (idx) => {
+                        await this.removeStaticImage(idx);
+                        await this.forceRenderFabric();
+                      }}
+                      onStaticImageUpdate={async (idx, updated) => {
+                        await this.updateStatic(idx, updated);
+                        await this.forceRenderFabric();
+                      }}
+                    />
+                  </Form.Group>
                 </div>
               </div>
           </div>
