@@ -12,6 +12,7 @@ import EDITOR_DEFAULT_TEMPLATE from "../vars/editor-default-template";
 import EditorCoreDoc from "./EditorCoreDoc";
 import EditorCoreInfo from "./EditorCoreInfo";
 import EditorCoreSketch from "./EditorCoreSketch";
+import EditorCoreStackFooter from "./EditorCoreStackFooter";
 import EditorCoreStaticList from "./EditorCoreStaticList";
 import EditorCoreStaticFooter from "./EditorCoreStaticFooter";
 
@@ -194,6 +195,18 @@ export default class EditorCore extends React.Component {
                     }}
                   />
                 </div>
+              </div>
+              <GroupSeparatorHorizontal />
+              <div className="tw-py-2">
+                <Form.Group>
+                  <Form.Label>Stack</Form.Label>
+                  <EditorCoreStackListFooter
+                    onAddObject={async (obj) => {
+                      await this.addObject(obj);
+                      await this.forceRenderFabric();
+                    }}
+                  />
+                </Form.Group>
               </div>
           </div>
           </div>
