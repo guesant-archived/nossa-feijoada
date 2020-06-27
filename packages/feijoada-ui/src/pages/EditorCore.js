@@ -13,6 +13,7 @@ import EditorCoreDoc from "./EditorCoreDoc";
 import EditorCoreInfo from "./EditorCoreInfo";
 import EditorCoreSketch from "./EditorCoreSketch";
 import EditorCoreStaticList from "./EditorCoreStaticList";
+import EditorCoreStaticFooter from "./EditorCoreStaticFooter";
 
 const {
   fabric: {
@@ -186,6 +187,12 @@ export default class EditorCore extends React.Component {
                       }}
                     />
                   </Form.Group>
+                  <EditorCoreStaticFooter
+                    onStaticImageAdd={async (images) => {
+                      await this.addStaticImage(images);
+                      await this.forceRenderFabric();
+                    }}
+                  />
                 </div>
               </div>
           </div>
