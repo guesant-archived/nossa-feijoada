@@ -5,6 +5,11 @@ import Button from "react-bootstrap/Button";
 import Accordion from "react-bootstrap/Accordion";
 import Generic from "../components/EditorStack/Generic";
 import GenericLabel from "../components/EditorStack/GenericLabel";
+import {
+  isSupported,
+  specificComponent,
+  specificLabel,
+} from "../components/EditorStack/Specific";
 
 const ITEM_BASE_ID = "editor-stack--item";
 const EVENT_BASE_ID = "edtr--core--stack--list---evkey";
@@ -63,6 +68,29 @@ const EditorCoreStackList = ({ objects, onUpdateObject, onRemoveObject }) => (
                       ),
                     },
                   ],
+                  ...(isSupported({ type: object.type })
+                    ? [
+                        [
+                          {
+                            header: specificLabel({ type: object.type }) || "",
+                          },
+                          {
+                            body: () =>
+                              React.createElement(
+                                specificComponent({ type: object.type }),
+                                {
+                                  ...{
+                                    object,
+                                    onUpdateObject: async (updatedObject) => {
+                                      await onUpdateObject(idx, updatedObject);
+                                    },
+                                  },
+                                },
+                              ),
+                          },
+                        ],
+                      ]
+                    : []),
                 ].map(([{ header }, { body }], idx) => (
                   <Card key={idx} text="dark">
                     <Card.Header>{header}</Card.Header>
