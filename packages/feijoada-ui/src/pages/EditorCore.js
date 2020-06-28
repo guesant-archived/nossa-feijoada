@@ -12,6 +12,7 @@ import EDITOR_DEFAULT_TEMPLATE from "../vars/editor-default-template";
 import EditorCoreDoc from "./EditorCoreDoc";
 import EditorCoreInfo from "./EditorCoreInfo";
 import EditorCoreSketch from "./EditorCoreSketch";
+import EditorCoreStackList from "./EditorCoreStackList";
 import EditorCoreStackFooter from "./EditorCoreStackFooter";
 import EditorCoreStaticList from "./EditorCoreStaticList";
 import EditorCoreStaticFooter from "./EditorCoreStaticFooter";
@@ -200,7 +201,18 @@ export default class EditorCore extends React.Component {
               <div className="tw-py-2">
                 <Form.Group>
                   <Form.Label>Stack</Form.Label>
-                  <EditorCoreStackListFooter
+                  <EditorCoreStackList
+                    objects={this.state.doc.model.fabricExported.objects}
+                    onUpdateObject={async (idx, object) => {
+                      await this.updateObject(idx, object);
+                      await this.forceRenderFabric();
+                    }}
+                    onRemoveObject={async (idx) => {
+                      await this.removeObject(idx);
+                      await this.forceRenderFabric();
+                    }}
+                  />
+                  <EditorCoreStackFooter
                     onAddObject={async (obj) => {
                       await this.addObject(obj);
                       await this.forceRenderFabric();
