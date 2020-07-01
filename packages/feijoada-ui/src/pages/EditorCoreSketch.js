@@ -1,6 +1,14 @@
 import * as React from "react";
+import * as bsimCore from "@bsim/core";
 import FormGeneric from "../components/FormGeneric";
-import parseDimensionInput from "../utils/bsim-utils/parse-dimension-input";
+
+const {
+  lib: {
+    model: {
+      parse: { parseDimension },
+    },
+  },
+} = bsimCore;
 
 const getId = (...refs) =>
   ["pages", "editor", "-core", "-doc", ...refs].join("--");
@@ -26,7 +34,7 @@ const EditorCoreSketch = ({ doc, onSetState }) => (
                       ...state.doc.model,
                       sketch: {
                         ...state.doc.model.sketch,
-                        width: parseDimensionInput(value),
+                        width: parseDimension(value),
                       },
                     },
                   },
@@ -59,7 +67,7 @@ const EditorCoreSketch = ({ doc, onSetState }) => (
                       ...state.doc.model,
                       sketch: {
                         ...state.doc.model.sketch,
-                        height: parseDimensionInput(value),
+                        height: parseDimension(value),
                       },
                     },
                   },
