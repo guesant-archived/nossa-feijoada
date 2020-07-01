@@ -9,9 +9,11 @@ export interface IBSIMTemplateStatic {
   position: "back" | "front";
 }
 
+export type IBSIMTemplateExportedObject = [{ [key: string]: any }];
+
 export interface IBSIMTemplateExported {
   version?: string;
-  objects: [{ [key: string]: any }];
+  objects: IBSIMTemplateExportedObject[];
 }
 
 export interface IBSIMTemplateDoc {
