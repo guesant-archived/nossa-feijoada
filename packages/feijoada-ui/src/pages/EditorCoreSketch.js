@@ -12,6 +12,7 @@ const {
 
 const getId = (...refs) =>
   ["pages", "editor", "-core", "-doc", ...refs].join("--");
+const displayDimension = (val) => (val === 0 ? "" : val);
 
 const EditorCoreSketch = ({ doc, onSetState }) => (
   <div>
@@ -21,11 +22,10 @@ const EditorCoreSketch = ({ doc, onSetState }) => (
         formControl={{
           props: {
             ...{
-              placeholder: "350",
               type: "number",
             },
             ...{
-              value: doc.model.sketch.width,
+              value: displayDimension(doc.model.sketch.width),
               onChange: async ({ target: { value } }) => {
                 await onSetState((state) => ({
                   doc: {
@@ -54,11 +54,10 @@ const EditorCoreSketch = ({ doc, onSetState }) => (
         formControl={{
           props: {
             ...{
-              placeholder: "400",
               type: "number",
             },
             ...{
-              value: doc.model.sketch.height,
+              value: displayDimension(doc.model.sketch.height),
               onChange: async ({ target: { value } }) => {
                 await onSetState((state) => ({
                   doc: {
