@@ -4,10 +4,7 @@ const Generic = ({ object, onUpdateObject, baseID }) => {
   return (
     <div className="tw-flex tw-flex-col tw-flex-wrap ">
       <div className="tw-flex tw-flex-row tw-flex-wrap">
-        <div
-          className="tw-grid tw-grid-cols-2"
-          style={{ gridTemplateColumns: "0.75fr 1fr" }}
-        >
+        <div>
           {[
             [
               { children: "x" },
@@ -30,7 +27,7 @@ const Generic = ({ object, onUpdateObject, baseID }) => {
               },
             ],
             [
-              { children: "width" },
+              { children: "w" },
               {
                 type: "number",
                 value: object.width,
@@ -40,7 +37,7 @@ const Generic = ({ object, onUpdateObject, baseID }) => {
               },
             ],
             [
-              { children: "height" },
+              { children: "h" },
               {
                 type: "number",
                 value: object.height,
@@ -50,7 +47,7 @@ const Generic = ({ object, onUpdateObject, baseID }) => {
               },
             ],
             [
-              { children: "ângulo" },
+              { children: "a" },
               {
                 type: "number",
                 value: object.angle,
@@ -62,14 +59,18 @@ const Generic = ({ object, onUpdateObject, baseID }) => {
           ]
             .map((arr, idx) => [...arr, [baseID, idx].join("--")])
             .map(([labelProps, controlProps, id], idx) => (
-              <React.Fragment key={idx}>
-                <label htmlFor={id} className="tw-mb-0" {...labelProps} />
+              <div key={idx}>
+                <label
+                  htmlFor={id}
+                  className="tw-mb-0 tw-w-4"
+                  {...labelProps}
+                />
                 <input
                   id={id}
                   className="tw-border-solid tw-border-2 tw-w-20 tw-px-1"
                   {...controlProps}
                 />
-              </React.Fragment>
+              </div>
             ))}
         </div>
       </div>
