@@ -1,5 +1,7 @@
 import * as React from "react";
+import mdIt from "markdown-it";
 import Button from "react-bootstrap/Button";
+import HomeAbout from "../contents/HomeAbout.md";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import getPreview from "../utils/get-preview";
@@ -7,7 +9,10 @@ import EDITOR_DEFAULT_TEMPLATE from "../vars/editor-default-template";
 import HomeImportTemplate from "../components/HomeImportTemplate";
 import HomeListSlots from "../components/HomeSlots";
 
+const md = mdIt();
+
 const Home = () => {
+  const [about, setAbout] = React.useState("");
   const [doc, setDoc] = React.useState(EDITOR_DEFAULT_TEMPLATE);
   const [hasPreviewChanges, setHasPreviewChanges] = React.useState(false);
   const [preview, setPreview] = React.useState("");
@@ -29,6 +34,21 @@ const Home = () => {
   React.useEffect(() => {
     autoPreview && generatePreview();
   }, [autoPreview, doc]); // eslint-disable-line
+
+  React.useEffect(() => {
+    const getAbout = async () => {
+      fetch(HomeAbout)
+        .then((res) => res.text())
+        .then((about) =>
+          setAbout(
+            md
+              .render(about)
+              .replace(/<a/g, '<a target="_blank" rel="noopener noreferrer"'),
+          ),
+        );
+    };
+    getAbout();
+  });
 
   return (
     <div className="tw-flex tw-flex-col tw-h-full tw-min-h-screen ">
@@ -92,6 +112,17 @@ const Home = () => {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div>
+          <div className="tw-bg-gray-100 tw-text-gray-900 tw-font-semibold tw-py-10">
+            <div className="tw-container tw-mx-auto tw-max-w-4xl tw-w-full tw-px-4 lg:tw-px-0">
+              <section>
+                <div dangerouslySetInnerHTML={{ __html: about }} />
+              </section>
             </div>
           </div>
         </div>

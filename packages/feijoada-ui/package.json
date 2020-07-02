@@ -10,6 +10,7 @@
     "bootstrap": "^4.5.0",
     "fabric": "^3.6.3",
     "file-saver": "^2.0.2",
+    "markdown-it": "^11.0.0",
     "postcss-cli": "^7.1.1",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
