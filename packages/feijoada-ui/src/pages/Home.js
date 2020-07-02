@@ -1,4 +1,5 @@
 import * as React from "react";
+import Button from "react-bootstrap/Button";
 
 import Header from "../components/Header";
 import getPreview from "../utils/get-preview";
@@ -7,11 +8,13 @@ import HomeImportTemplate from "../components/HomeImportTemplate";
 
 const Home = () => {
   const [doc, setDoc] = React.useState(EDITOR_DEFAULT_TEMPLATE);
+  const [hasPreviewChanges, setHasPreviewChanges] = React.useState(false);
   const [preview, setPreview] = React.useState("");
   const [autoPreview, setAutoPreview] = React.useState(true);
 
   const onUpdateDoc = (doc) => {
     setDoc(doc);
+    setHasPreviewChanges(true);
   };
 
   const generatePreview = async () => {
@@ -19,6 +22,7 @@ const Home = () => {
     await getPreview({ doc }, { format: "jpeg" }).then((preview) =>
       setPreview(preview),
     );
+    setHasPreviewChanges(false);
   };
 
   React.useEffect(() => {
@@ -70,6 +74,14 @@ const Home = () => {
                           Baixar Preview
                         </Button>
                   </div>
+                      <div className="tw-mb-1"></div>
+                      <Button
+                        className="tw-w-full"
+                        disabled={!hasPreviewChanges && !autoPreview}
+                        onClick={() => generatePreview()}
+                      >
+                        Gerar Preview
+                      </Button>
                     </div>
                   </div>
                 </div>
