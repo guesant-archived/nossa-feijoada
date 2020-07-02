@@ -36,10 +36,10 @@ const Home = () => {
                 <div className="tw-flex-1">
                   <div className="tw-px-1 tw-py-1">
                     <div>
-                      <HomeOpenTemplate onUpdateDoc={onUpdateDoc} />
+                      <HomeImportTemplate onUpdateDoc={onUpdateDoc} />
                     </div>
-                  </div>
-                </div>
+                    </div>
+                    </div>
                 <div className="tw-bg-gray-800 tw-opacity-75 tw-h-1 sm:tw-h-auto sm:tw-w-1 tw-hidden sm:tw-block"></div>
                 <div className="tw-flex-1">
                   <img src={preview} alt="Preview" />
@@ -57,6 +57,19 @@ const Home = () => {
                         />
                         <span>Preview Automático</span>
                       </label>
+                    </div>
+                    <div className="tw-my-2"></div>
+                    <div>
+                      <div>
+                        <Button
+                          href={preview}
+                          download="preview.jpg"
+                          variant="secondary"
+                          className="tw-w-full"
+                        >
+                          Baixar Preview
+                        </Button>
+                  </div>
                     </div>
                   </div>
                 </div>
