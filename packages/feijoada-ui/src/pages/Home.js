@@ -8,6 +8,7 @@ import HomeImportTemplate from "../components/HomeImportTemplate";
 const Home = () => {
   const [doc, setDoc] = React.useState(EDITOR_DEFAULT_TEMPLATE);
   const [preview, setPreview] = React.useState("");
+  const [autoPreview, setAutoPreview] = React.useState(true);
 
   const onUpdateDoc = (doc) => {
     setDoc(doc);
@@ -21,8 +22,8 @@ const Home = () => {
   };
 
   React.useEffect(() => {
-    generatePreview();
-  }, [doc]); // eslint-disable-line
+    autoPreview && generatePreview();
+  }, [autoPreview, doc]); // eslint-disable-line
 
   return (
     <div className="tw-flex tw-flex-col tw-h-full tw-min-h-screen ">
@@ -45,6 +46,19 @@ const Home = () => {
                 </div>
                 <div className="tw-bg-gray-800 tw-opacity-75 tw-h-1 sm:tw-h-auto sm:tw-w-1 tw-hidden sm:tw-block"></div>
                 <div className="tw-flex-1">
+                  <div className="tw-px-1 tw-py-1">
+                    <div>
+                      <label className="tw-flex tw-flex-wrap tw-items-center tw-mb-0">
+                        <input
+                          type="checkbox"
+                          className="tw-mr-1"
+                          checked={autoPreview}
+                          onChange={() => setAutoPreview(!autoPreview)}
+                        />
+                        <span>Preview Automático</span>
+                      </label>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
