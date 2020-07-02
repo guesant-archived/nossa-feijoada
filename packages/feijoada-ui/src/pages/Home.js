@@ -1,6 +1,6 @@
 import * as React from "react";
 import Button from "react-bootstrap/Button";
-
+import Footer from "../components/Footer";
 import Header from "../components/Header";
 import getPreview from "../utils/get-preview";
 import EDITOR_DEFAULT_TEMPLATE from "../vars/editor-default-template";
@@ -96,6 +96,7 @@ const Home = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
