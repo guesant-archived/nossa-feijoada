@@ -1,7 +1,7 @@
 import * as React from "react";
 import { saveAs } from "file-saver";
 import Button from "react-bootstrap/Button";
-import urlToBlob from "../utils/url-to-blob";
+import blobFromB64 from "../utils/blob-from-b64";
 import blobToB64 from "../utils/blob-to-b64";
 
 const stringify = (object, identation = undefined) =>
