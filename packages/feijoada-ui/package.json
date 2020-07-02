@@ -9,6 +9,7 @@
     "autoprefixer": "^9.8.0",
     "bootstrap": "^4.5.0",
     "fabric": "^3.6.3",
+    "file-saver": "^2.0.2",
     "postcss-cli": "^7.1.1",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
@@ -39,6 +40,7 @@
     ]
   },
   "devDependencies": {
+    "@types/file-saver": "^2.0.1",
     "@types/react-router-dom": "^5.1.5",
     "tailwindcss": "^1.4.6"
   }

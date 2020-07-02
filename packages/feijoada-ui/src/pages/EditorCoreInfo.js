@@ -1,7 +1,13 @@
 import * as React from "react";
+import { saveAs } from "file-saver";
 import Button from "react-bootstrap/Button";
+import urlToBlob from "../utils/url-to-blob";
+import blobToB64 from "../utils/blob-to-b64";
 
-const stringify = (jsobject) => JSON.stringify(jsobject, null, 2);
+const stringify = (object, identation = undefined) =>
+  JSON.stringify(object, null, identation);
+const stringifyFormatted = (object) => stringify(object, 2);
+
 const templatePreview = ({ doc }) => ({
   ...doc,
   model: {
@@ -13,13 +19,26 @@ const templatePreview = ({ doc }) => ({
   },
 });
 
+const templateExport = async ({ doc }) => ({
+  ...doc,
+  model: {
+    ...doc.model,
+    staticImages: await Promise.all(
+      doc.model.staticImages.map(async ({ url, ...staticImage }) => ({
+        ...staticImage,
+        url: await urlToBlob(url).then((blob) => blobToB64(blob)),
+      })),
+    ),
+  },
+});
+
 const EditorCoreInfoJSON = ({ doc }) => (
   <div className="tw-px-1 tw-py-1">
     <textarea
       readOnly
       rows="6"
       className="tw-text-black tw-w-full tw-pl-2 tw-py-1"
-      value={stringify(templatePreview({ doc }))}
+      value={stringifyFormatted(templatePreview({ doc }))}
       onClick={({ target }) => {
         target.select();
       }}
@@ -33,6 +52,25 @@ const EditorCoreInfo = ({ doc }) => {
     <div>
       <div className="tw-px-2 tw-py-2">
         <div className="tw-flex tw-justify-end">
+          <Button
+            variant="dark"
+            onClick={() => {
+              templateExport({ doc })
+                .then((project) => stringify(project))
+                .then(
+                  (project) =>
+                    new Blob([project], {
+                      type: "application/json",
+                    }),
+                )
+                .then((blob) => {
+                  saveAs(blob, "template.json");
+                });
+            }}
+          >
+            Baixar Template
+          </Button>
+          <div className="tw-ml-1"></div>
           <Button
             variant={isJSONVisible ? "dark" : "secondary"}
             onClick={() => {
