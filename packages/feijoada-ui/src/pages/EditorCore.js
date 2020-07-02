@@ -180,6 +180,11 @@ export default class EditorCore extends React.Component {
                     <EditorCoreStaticList
                       staticImages={this.state.doc.model.staticImages}
                       onStaticImageRemove={async (idx) => {
+                        try {
+                          const { doc } = this.state;
+                          const staticImage = doc.model.staticImages[idx];
+                          URL.revokeObjectURL(staticImage.url);
+                        } catch (_) {}
                         await this.removeStaticImage(idx);
                         await this.forceRenderFabric();
                       }}
