@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import getPreview from "../utils/get-preview";
 import EDITOR_DEFAULT_TEMPLATE from "../vars/editor-default-template";
 import HomeImportTemplate from "../components/HomeImportTemplate";
+import HomeListSlots from "../components/HomeSlots";
 
 const Home = () => {
   const [doc, setDoc] = React.useState(EDITOR_DEFAULT_TEMPLATE);
@@ -43,6 +44,11 @@ const Home = () => {
                       <HomeImportTemplate onUpdateDoc={onUpdateDoc} />
                     </div>
                     </div>
+                  <section>
+                    <div className="tw-px-1 tw-py-1">
+                      <HomeListSlots doc={doc} onUpdateDoc={onUpdateDoc} />
+                    </div>
+                  </section>
                     </div>
                 <div className="tw-bg-gray-800 tw-opacity-75 tw-h-1 sm:tw-h-auto sm:tw-w-1 tw-hidden sm:tw-block"></div>
                 <div className="tw-flex-1">
