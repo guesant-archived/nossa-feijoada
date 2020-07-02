@@ -1,15 +1,28 @@
 import * as React from "react";
 
 import Header from "../components/Header";
+import getPreview from "../utils/get-preview";
 import EDITOR_DEFAULT_TEMPLATE from "../vars/editor-default-template";
 import HomeImportTemplate from "../components/HomeImportTemplate";
 
 const Home = () => {
   const [doc, setDoc] = React.useState(EDITOR_DEFAULT_TEMPLATE);
+  const [preview, setPreview] = React.useState("");
 
   const onUpdateDoc = (doc) => {
     setDoc(doc);
   };
+
+  const generatePreview = async () => {
+    URL.revokeObjectURL(preview);
+    await getPreview({ doc }, { format: "jpeg" }).then((preview) =>
+      setPreview(preview),
+    );
+  };
+
+  React.useEffect(() => {
+    generatePreview();
+  }, [doc]); // eslint-disable-line
 
   return (
     <div className="tw-flex tw-flex-col tw-h-full tw-min-h-screen ">
@@ -28,6 +41,7 @@ const Home = () => {
                 </div>
                 <div className="tw-bg-gray-800 tw-opacity-75 tw-h-1 sm:tw-h-auto sm:tw-w-1 tw-hidden sm:tw-block"></div>
                 <div className="tw-flex-1">
+                  <img src={preview} alt="Preview" />
                 </div>
                 <div className="tw-bg-gray-800 tw-opacity-75 tw-h-1 sm:tw-h-auto sm:tw-w-1 tw-hidden sm:tw-block"></div>
                 <div className="tw-flex-1">
