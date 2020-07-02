@@ -156,7 +156,8 @@ export default class EditorCore extends React.Component {
                 <EditorCoreDoc
                   doc={this.state.doc}
                   onSetState={async (state) =>
-                    new Promise((resolve) => this.setState(state, resolve))}
+                    new Promise((resolve) => this.setState(state, resolve))
+                  }
                 />
               </div>
               <GroupSeparatorHorizontal />
@@ -166,7 +167,7 @@ export default class EditorCore extends React.Component {
                     doc={this.state.doc}
                     onSetState={async (state) => {
                       await new Promise((resolve) =>
-                        this.setState(state, resolve)
+                        this.setState(state, resolve),
                       );
                       await this.forceRenderFabric();
                     }}
