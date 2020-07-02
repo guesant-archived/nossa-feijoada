@@ -8,6 +8,8 @@
     "@testing-library/user-event": "^7.1.2",
     "autoprefixer": "^9.8.0",
     "bootstrap": "^4.5.0",
+    "fabric": "^3.6.3",
+    "file-saver": "^2.0.2",
     "postcss-cli": "^7.1.1",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
@@ -16,7 +18,7 @@
     "react-scripts": "3.4.1"
   },
   "scripts": {
-    "build:style": "tailwind build src/styles/tailwind.setup.css -o src/styles/tailwind.css",
+    "build:style": "tailwind build src/assets/styles/tailwind.setup.css -o src/assets/styles/tailwind.css",
     "start": "npm run build:style && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -38,6 +40,7 @@
     ]
   },
   "devDependencies": {
+    "@types/file-saver": "^2.0.1",
     "@types/react-router-dom": "^5.1.5",
     "tailwindcss": "^1.4.6"
   }
