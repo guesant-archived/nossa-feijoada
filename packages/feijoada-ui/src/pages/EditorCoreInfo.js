@@ -26,7 +26,7 @@ const templateExport = async ({ doc }) => ({
     staticImages: await Promise.all(
       doc.model.staticImages.map(async ({ url, ...staticImage }) => ({
         ...staticImage,
-        url: await urlToBlob(url).then((blob) => blobToB64(blob)),
+        url: await blobFromB64(url).then((blob) => blobToB64(blob)),
       })),
     ),
   },
