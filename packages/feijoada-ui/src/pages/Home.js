@@ -63,13 +63,13 @@ const Home = () => {
                     <div>
                       <HomeImportTemplate onUpdateDoc={onUpdateDoc} />
                     </div>
-                    </div>
+                  </div>
                   <section>
                     <div className="tw-px-1 tw-py-1">
                       <HomeListSlots doc={doc} onUpdateDoc={onUpdateDoc} />
                     </div>
                   </section>
-                    </div>
+                </div>
                 <div className="tw-bg-gray-800 tw-opacity-75 tw-h-1 sm:tw-h-auto sm:tw-w-1 tw-hidden sm:tw-block"></div>
                 <div className="tw-flex-1">
                   <img src={preview} alt="Preview" />
@@ -99,7 +99,7 @@ const Home = () => {
                         >
                           Baixar Preview
                         </Button>
-                  </div>
+                      </div>
                       <div className="tw-mb-1"></div>
                       <Button
                         className="tw-w-full"
