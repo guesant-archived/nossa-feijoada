@@ -30,7 +30,7 @@ const {
         REMOVE_OBJECT,
         REMOVE_STATIC_IMAGE,
         UPDATE_OBJECT,
-        UPDATE_STATIC,
+        UPDATE_STATIC_IMAGE,
         GENERATE_FABRIC_EXPORTED,
       },
     },
@@ -123,7 +123,7 @@ export default class EditorCore extends React.Component {
   }
   async updateStatic(idx, updated) {
     await new Promise((resolve) => {
-      this.setState(UPDATE_STATIC(idx, updated), resolve);
+      this.setState(UPDATE_STATIC_IMAGE(idx, updated), resolve);
     });
   }
   async addStaticImage(staticImages) {
