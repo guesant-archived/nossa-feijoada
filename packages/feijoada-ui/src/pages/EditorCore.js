@@ -75,7 +75,7 @@ export default class EditorCore extends React.Component {
   }
   async setupCanvas() {
     await this.disposeCanvas();
-
+    const DISPLAY_CANVAS_BORDER = true;
     const _getCanvas = this.getCanvas();
     const canvas = _getCanvas({
       doc: this.state.doc,
@@ -87,6 +87,11 @@ export default class EditorCore extends React.Component {
     canvas.on("object:removed", () => {
       this.exportObjects();
     });
+    if (DISPLAY_CANVAS_BORDER) {
+      canvas.wrapperEl.style.borderColor = "#f0f";
+      canvas.wrapperEl.style.borderWidth = "2px";
+      canvas.wrapperEl.style.boxSizing = "content-box";
+    }
     return SET_CANVAS(canvas);
   }
   async renderFabric() {
