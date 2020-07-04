@@ -231,19 +231,19 @@ export default class EditorCore extends React.Component {
                   />
                 </Form.Group>
               </div>
-          </div>
+            </div>
           </div>
           <GroupSeparatorVertical />
           <div className="tw-relative">
             <div className="tw-sticky tw-bg-gray-900" style={{ top: 0 }}>
-          <div>
-            <div ref={this.refdiv}></div>
+              <div>
+                <div ref={this.refdiv}></div>
               </div>
-            <EditorCoreInfo doc={this.state.doc} />
+              <EditorCoreInfo doc={this.state.doc} />
             </div>
           </div>
         </GroupContainerBorder>
       </GroupContainer>
     );
   }
-  }
+}
