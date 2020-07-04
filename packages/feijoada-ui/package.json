@@ -44,5 +44,6 @@
     "@types/file-saver": "^2.0.1",
     "@types/react-router-dom": "^5.1.5",
     "tailwindcss": "^1.4.6"
-  }
+  },
+  "author": "Gabriel Rodrigues <jipacoding@gmail.com>"
 }
