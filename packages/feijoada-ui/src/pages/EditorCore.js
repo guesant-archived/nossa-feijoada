@@ -16,6 +16,7 @@ import EditorCoreStackList from "./EditorCoreStackList";
 import EditorCoreStackFooter from "./EditorCoreStackFooter";
 import EditorCoreStaticList from "./EditorCoreStaticList";
 import EditorCoreStaticFooter from "./EditorCoreStaticFooter";
+import HomeImportTemplate from "../components/HomeImportTemplate";
 
 const {
   fabric: {
@@ -210,7 +211,7 @@ export default class EditorCore extends React.Component {
               </div>
               <GroupSeparatorHorizontal />
               <div className="tw-py-2">
-                <Form.Group>
+                <Form.Group className="tw-mb-0">
                   <Form.Label>Stack</Form.Label>
                   <EditorCoreStackList
                     objects={this.state.doc.model.fabricExported.objects}
@@ -230,6 +231,19 @@ export default class EditorCore extends React.Component {
                     }}
                   />
                 </Form.Group>
+              </div>
+              <div className="tw-pb-2">
+                <HomeImportTemplate
+                  buttonProps={{
+                    className: "tw-w-full",
+                  }}
+                  onUpdateDoc={async (doc) => {
+                    await new Promise((resolve) => {
+                      this.setState({ doc }, resolve);
+                    });
+                    await this.forceRenderFabric();
+                  }}
+                />
               </div>
             </div>
           </div>

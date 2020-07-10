@@ -28,10 +28,13 @@ const EditorCoreDoc = ({ doc, onSetState }) => (
         },
       }}
       formGruop={{
-        props: { controlId: getId("-editor", "-model", "-description") },
+        props: {
+          className: "tw-mb-0",
+          controlId: getId("-editor", "-model", "-description"),
+        },
       }}
     />
-
+    <div className="tw-mb-2"></div>
     <FormGeneric
       formLabel={{ text: "Remetente" }}
       formControl={{
@@ -55,9 +58,13 @@ const EditorCoreDoc = ({ doc, onSetState }) => (
         },
       }}
       formGruop={{
-        props: { controlId: getId("-editor", "-model", "-publisher") },
+        props: {
+          className: "tw-mb-0",
+          controlId: getId("-editor", "-model", "-publisher"),
+        },
       }}
     />
+    <div className="tw-mb-2"></div>
   </div>
 );
 
