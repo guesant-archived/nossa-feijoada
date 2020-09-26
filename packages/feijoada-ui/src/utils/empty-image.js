@@ -1,4 +1,0 @@
-const EMPTY_IMAGE =
-  "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
-
-export default EMPTY_IMAGE;
