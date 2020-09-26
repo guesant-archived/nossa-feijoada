@@ -1,3 +1,4 @@
+import { ADD_STATIC_IMAGE } from "@fantastic-images/lib/dist/model/mutations";
 import { staticFromURL } from "@fantastic-images/lib/dist/model/static-from-url";
 import * as React from "react";
 import ListGroup from "react-bootstrap/ListGroup";
@@ -21,7 +22,11 @@ const ActionItem = ({ children, ...props }) => (
   </div>
 );
 
-const EditorCoreStaticFooter = ({ onStaticImageAdd }) => (
+const EditorCoreStaticFooter = ({
+  state: { template },
+  updateTemplate,
+  forceRenderFabric,
+}) => (
   <div>
     <div>
       <ListGroup>
@@ -37,12 +42,15 @@ const EditorCoreStaticFooter = ({ onStaticImageAdd }) => (
                 multiple
                 type="file"
                 onChange={async ({ target: { files } }) => {
-                  await onStaticImageAdd(
-                    Array.from(files)
-                      .map((blob) => URL.createObjectURL(blob))
-                      .map((url) => ({ url }))
-                      .map(staticFromURL),
+                  await updateTemplate(
+                    ADD_STATIC_IMAGE({
+                      staticImages: Array.from(files)
+                        .map((blob) => URL.createObjectURL(blob))
+                        .map((url) => ({ url }))
+                        .map(staticFromURL),
+                    })(template),
                   );
+                  await forceRenderFabric();
                 }}
               />
             </ActionItem>

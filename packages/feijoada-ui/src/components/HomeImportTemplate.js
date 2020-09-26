@@ -4,32 +4,31 @@ import optimizeDoc from "../utils/optimize-doc";
 import blobAsText from "../utils/blob-as-text";
 import EDITOR_DEFAULT_TEMPLATE from "../vars/editor-default-template";
 
-const HomeImportTemplate = ({ buttonProps = {}, onUpdateDoc }) => (
+const HomeImportTemplate = ({ updateTemplate, forceRenderFabric }) => (
   <Button
-    {...buttonProps}
-    className={[buttonProps.className || "", "tw-mb-0"]}
-    as="label"
-  >
-    <span>Abrir Template</span>
-    <input
-      type="file"
-      className="tw-sr-only"
-      onChange={async ({
-        target: {
-          files: [file],
-        },
-      }) => {
-        if (!file) return;
-        try {
-          await onUpdateDoc(
-            await optimizeDoc(JSON.parse(await blobAsText(file))),
-          );
-        } catch (_) {
-          await onUpdateDoc(await optimizeDoc(EDITOR_DEFAULT_TEMPLATE));
+    onClick={() => {
+      const input = document.createElement("input");
+      input.type = "file";
+      input.addEventListener("change", async ({ target: { files } }) => {
+        const [file] = files;
+        if (file) {
+          await new Promise(async (resolve) => {
+            try {
+              resolve(JSON.parse(await blobAsText(file)));
+            } catch (_) {
+              resolve(EDITOR_DEFAULT_TEMPLATE);
+            }
+          }).then(async (template) => {
+            await updateTemplate(await optimizeDoc(template));
+            await forceRenderFabric();
+          });
         }
-      }}
-    />
-  </Button>
+      });
+      input.click();
+    }}
+    className={["tw-w-full", "tw-mb-0"]}
+    children={<span>Abrir Template</span>}
+  />
 );
 
 export default HomeImportTemplate;

@@ -47,9 +47,11 @@ export default class EditorCore extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      doc: EDITOR_DEFAULT_TEMPLATE,
+      template: EDITOR_DEFAULT_TEMPLATE,
     };
     this.refdiv = React.createRef();
+    this.updateTemplate = this.updateTemplate.bind(this);
+    this.forceRenderFabric = this.forceRenderFabric.bind(this);
   }
   async disposeCanvas() {
     if (GET_CANVAS()) {
@@ -59,7 +61,7 @@ export default class EditorCore extends React.Component {
     }
   }
   getCanvas() {
-    return _canvasByDOM({
+    return canvasByDom({ fabric })({ document: window.document })({
       wrapper: this.refdiv.current,
       id: "pgs--editr--canvas-plgrnd",
     });
@@ -67,11 +69,8 @@ export default class EditorCore extends React.Component {
   async setupCanvas() {
     await this.disposeCanvas();
     const DISPLAY_CANVAS_BORDER = true;
-    const _getCanvas = this.getCanvas();
-    const canvas = _getCanvas({
-      doc: this.state.doc,
-    });
-    canvas.set(this.state.doc.model.sketch);
+    const canvas = this.getCanvas()(this.state.template);
+    canvas.set(this.state.template.model.sketch);
     canvas.on("object:modified", () => {
       this.exportObjects();
     });
@@ -86,9 +85,9 @@ export default class EditorCore extends React.Component {
     return SET_CANVAS(canvas);
   }
   async renderFabric() {
-    await _renderTemplate({ canvas: GET_CANVAS() })({
-      doc: this.state.doc,
-    })();
+    await renderTemplate({ fabric })({ canvas: GET_CANVAS() })(
+      this.state.template,
+    );
   }
   async forceRenderFabric() {
     await this.setupCanvas();
@@ -112,35 +111,8 @@ export default class EditorCore extends React.Component {
       );
     });
   }
-  async removeStaticImage(idx) {
-    await new Promise((resolve) => {
-      this.setState(REMOVE_STATIC_IMAGE({ idx }), resolve);
-    });
-  }
-  async updateStatic(idx, updated) {
-    await new Promise((resolve) => {
-      this.setState(UPDATE_STATIC_IMAGE(idx, updated), resolve);
-    });
-  }
-  async addStaticImage(staticImages) {
-    await new Promise((resolve) => {
-      this.setState(ADD_STATIC_IMAGE({ staticImages }), resolve);
-    });
-  }
-  async addObject(fabricObject) {
-    await new Promise((resolve) => {
-      this.setState(ADD_OBJECT({ object: fabricObject.toObject() }), resolve);
-    });
-  }
-  async removeObject(idx) {
-    await new Promise((resolve) => {
-      this.setState(REMOVE_OBJECT({ idx }), resolve);
-    });
-  }
-  async updateObject(idx, updated) {
-    await new Promise((resolve) => {
-      this.setState(UPDATE_OBJECT(idx, updated), resolve);
-    });
+  async updateTemplate(template) {
+    await new Promise((resolve) => this.setState({ template }, resolve));
   }
   render() {
     return (
@@ -149,25 +121,12 @@ export default class EditorCore extends React.Component {
           <div className="tw-flex-1">
             <div className="tw-px-2">
               <div className="tw-py-2">
-                <EditorCoreDoc
-                  doc={this.state.doc}
-                  onSetState={async (state) =>
-                    new Promise((resolve) => this.setState(state, resolve))
-                  }
-                />
+                <EditorCoreDoc {...this} />
               </div>
               <GroupSeparatorHorizontal />
               <div className="tw-py-2">
                 <div>
-                  <EditorCoreSketch
-                    doc={this.state.doc}
-                    onSetState={async (state) => {
-                      await new Promise((resolve) =>
-                        this.setState(state, resolve),
-                      );
-                      await this.forceRenderFabric();
-                    }}
-                  />
+                  <EditorCoreSketch {...this} />
                 </div>
                 <div className="tw-mb-1">
                   <Form.Group className="tw-mb-0">
@@ -175,28 +134,30 @@ export default class EditorCore extends React.Component {
                       Imagens Estáticas
                     </Form.Label>
                     <EditorCoreStaticList
-                      staticImages={this.state.doc.model.staticImages}
+                      staticImages={this.state.template.model.staticImages}
                       onStaticImageRemove={async (idx) => {
                         try {
-                          const { doc } = this.state;
+                          const { template: doc } = this.state;
                           const staticImage = doc.model.staticImages[idx];
                           URL.revokeObjectURL(staticImage.url);
                         } catch (_) {}
-                        await this.removeStaticImage(idx);
+                        await new Promise((resolve) => {
+                          this.setState(REMOVE_STATIC_IMAGE({ idx }), resolve);
+                        });
                         await this.forceRenderFabric();
                       }}
                       onStaticImageUpdate={async (idx, updated) => {
-                        await this.updateStatic(idx, updated);
+                        await new Promise((resolve) => {
+                          this.setState(
+                            UPDATE_STATIC_IMAGE(idx, updated),
+                            resolve,
+                          );
+                        });
                         await this.forceRenderFabric();
                       }}
                     />
                   </Form.Group>
-                  <EditorCoreStaticFooter
-                    onStaticImageAdd={async (images) => {
-                      await this.addStaticImage(images);
-                      await this.forceRenderFabric();
-                    }}
-                  />
+                  <EditorCoreStaticFooter {...this} />
                 </div>
               </div>
               <GroupSeparatorHorizontal />
@@ -204,36 +165,35 @@ export default class EditorCore extends React.Component {
                 <Form.Group className="tw-mb-0">
                   <Form.Label>Stack</Form.Label>
                   <EditorCoreStackList
-                    objects={this.state.doc.model.fabricExported.objects}
+                    objects={this.state.template.model.fabricExported.objects}
                     onUpdateObject={async (idx, object) => {
-                      await this.updateObject(idx, object);
+                      await new Promise((resolve) => {
+                        this.setState(UPDATE_OBJECT(idx, object), resolve);
+                      });
                       await this.forceRenderFabric();
                     }}
                     onRemoveObject={async (idx) => {
-                      await this.removeObject(idx);
+                      await new Promise((resolve) => {
+                        this.setState(REMOVE_OBJECT({ idx }), resolve);
+                      });
                       await this.forceRenderFabric();
                     }}
                   />
                   <EditorCoreStackFooter
                     onAddObject={async (obj) => {
-                      await this.addObject(obj);
+                      await new Promise((resolve) => {
+                        this.setState(
+                          ADD_OBJECT({ object: obj.toObject() }),
+                          resolve,
+                        );
+                      });
                       await this.forceRenderFabric();
                     }}
                   />
                 </Form.Group>
               </div>
               <div className="tw-pb-2">
-                <HomeImportTemplate
-                  buttonProps={{
-                    className: "tw-w-full",
-                  }}
-                  onUpdateDoc={async (doc) => {
-                    await new Promise((resolve) => {
-                      this.setState({ doc }, resolve);
-                    });
-                    await this.forceRenderFabric();
-                  }}
-                />
+                <HomeImportTemplate {...this} />
               </div>
             </div>
           </div>
@@ -243,7 +203,7 @@ export default class EditorCore extends React.Component {
               <div>
                 <div ref={this.refdiv}></div>
               </div>
-              <EditorCoreInfo doc={this.state.doc} />
+              <EditorCoreInfo doc={this.state.template} />
             </div>
           </div>
         </GroupContainerBorder>

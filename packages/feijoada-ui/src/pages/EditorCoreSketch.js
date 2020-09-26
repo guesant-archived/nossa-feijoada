@@ -5,7 +5,11 @@ const getId = (...refs) =>
   ["pages", "editor", "-core", "-doc", ...refs].join("--");
 const displayDimension = (val) => (val === 0 ? "" : val);
 
-const EditorCoreSketch = ({ doc, onSetState }) => (
+const EditorCoreSketch = ({
+  state: { template },
+  updateTemplate,
+  forceRenderFabric,
+}) => (
   <div>
     <div className="tw-flex">
       <FormGeneric
@@ -16,20 +20,19 @@ const EditorCoreSketch = ({ doc, onSetState }) => (
               type: "number",
             },
             ...{
-              value: displayDimension(doc.model.sketch.width),
+              value: displayDimension(template.model.sketch.width),
               onChange: async ({ target: { value } }) => {
-                await onSetState((state) => ({
-                  doc: {
-                    ...state.doc,
-                    model: {
-                      ...state.doc.model,
-                      sketch: {
-                        ...state.doc.model.sketch,
-                        width: +value,
-                      },
+                await updateTemplate({
+                  ...template,
+                  model: {
+                    ...template.model,
+                    sketch: {
+                      ...template.model.sketch,
+                      width: +value,
                     },
                   },
-                }));
+                });
+                await forceRenderFabric();
               },
             },
           },
@@ -39,7 +42,6 @@ const EditorCoreSketch = ({ doc, onSetState }) => (
         }}
       />
       <div className="tw-w-1"></div>
-
       <FormGeneric
         formLabel={{ text: "Altura" }}
         formControl={{
@@ -48,20 +50,19 @@ const EditorCoreSketch = ({ doc, onSetState }) => (
               type: "number",
             },
             ...{
-              value: displayDimension(doc.model.sketch.height),
+              value: displayDimension(template.model.sketch.height),
               onChange: async ({ target: { value } }) => {
-                await onSetState((state) => ({
-                  doc: {
-                    ...state.doc,
-                    model: {
-                      ...state.doc.model,
-                      sketch: {
-                        ...state.doc.model.sketch,
-                        height: +value,
-                      },
+                await updateTemplate({
+                  ...template,
+                  model: {
+                    ...template.model,
+                    sketch: {
+                      ...template.model.sketch,
+                      height: +value,
                     },
                   },
-                }));
+                });
+                await forceRenderFabric();
               },
             },
           },

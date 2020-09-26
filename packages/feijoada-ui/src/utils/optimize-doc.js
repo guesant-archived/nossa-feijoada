@@ -1,11 +1,11 @@
 import cacheB64 from "./cache-b64";
 
-const optimizeDoc = async (doc) => ({
-  ...doc,
+const optimizeDoc = async (template) => ({
+  ...template,
   model: {
-    ...doc.model,
+    ...template.model,
     staticImages: await Promise.all(
-      doc.model.staticImages.map(async ({ url, ...rest }) => ({
+      template.model.staticImages.map(async ({ url, ...rest }) => ({
         ...rest,
         url: await cacheB64(url),
       })),

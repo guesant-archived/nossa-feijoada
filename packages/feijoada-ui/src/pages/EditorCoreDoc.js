@@ -4,7 +4,7 @@ import FormGeneric from "../components/FormGeneric";
 const getId = (...refs) =>
   ["pages", "editor", "-core", "-doc", ...refs].join("--");
 
-const EditorCoreDoc = ({ doc, onSetState }) => (
+const EditorCoreDoc = ({ state: { template }, updateTemplate, onSetState }) => (
   <div>
     <FormGeneric
       formLabel={{ text: "Descrição" }}
@@ -15,14 +15,12 @@ const EditorCoreDoc = ({ doc, onSetState }) => (
             type: "text",
           },
           ...{
-            value: doc.description,
+            value: template.description,
             onChange: async ({ target: { value: description } }) => {
-              await onSetState((state) => ({
-                doc: {
-                  ...state.doc,
-                  description,
-                },
-              }));
+              await updateTemplate({
+                ...template,
+                description,
+              });
             },
           },
         },
@@ -46,14 +44,13 @@ const EditorCoreDoc = ({ doc, onSetState }) => (
           ...{
             disabled: true,
             readOnly: true,
-            value: doc.publisher,
-            onChange: async ({ target: { value: publisher } }) =>
-              await onSetState((state) => ({
-                doc: {
-                  ...state.doc,
-                  publisher,
-                },
-              })),
+            value: template.publisher,
+            onChange: async ({ target: { value: publisher } }) => {
+              await updateTemplate({
+                ...template,
+                publisher,
+              });
+            },
           },
         },
       }}
