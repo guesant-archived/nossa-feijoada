@@ -1,44 +1,34 @@
-import * as React from "react";
-import * as bsimCore from "@bsim/core";
-import { fabric } from "fabric";
-import Form from "react-bootstrap/Form";
+import { canvasByDom } from "@fantastic-images/core/dist/fabric/get-canvas/canvas-by-dom";
+import { renderTemplate } from "@fantastic-images/core/dist/fabric/render/render-template";
 import {
-  GroupSeparatorVertical,
-  GroupSeparatorHorizontal,
-} from "../components/GroupSeparator";
+  ADD_OBJECT,
+  ADD_STATIC_IMAGE,
+  GENERATE_FABRIC_EXPORTED,
+  REMOVE_OBJECT,
+  REMOVE_STATIC_IMAGE,
+  UPDATE_OBJECT,
+  UPDATE_STATIC_IMAGE,
+} from "@fantastic-images/lib/dist/model/mutations";
+import { fabric } from "fabric";
+import * as React from "react";
+import Form from "react-bootstrap/Form";
 import GroupContainer from "../components/GroupContainer";
 import GroupContainerBorder from "../components/GroupContainerBorder";
+import {
+  GroupSeparatorHorizontal,
+  GroupSeparatorVertical,
+} from "../components/GroupSeparator";
+import HomeImportTemplate from "../components/HomeImportTemplate";
 import EDITOR_DEFAULT_TEMPLATE from "../vars/editor-default-template";
 import EditorCoreDoc from "./EditorCoreDoc";
 import EditorCoreInfo from "./EditorCoreInfo";
 import EditorCoreSketch from "./EditorCoreSketch";
-import EditorCoreStackList from "./EditorCoreStackList";
 import EditorCoreStackFooter from "./EditorCoreStackFooter";
-import EditorCoreStaticList from "./EditorCoreStaticList";
+import EditorCoreStackList from "./EditorCoreStackList";
 import EditorCoreStaticFooter from "./EditorCoreStaticFooter";
-import HomeImportTemplate from "../components/HomeImportTemplate";
+import EditorCoreStaticList from "./EditorCoreStaticList";
 
-const {
-  fabric: {
-    getCanvas: { canvasByDOM },
-    render: { renderTemplate },
-  },
-  lib: {
-    model: {
-      mutations: {
-        ADD_OBJECT,
-        ADD_STATIC_IMAGE,
-        REMOVE_OBJECT,
-        REMOVE_STATIC_IMAGE,
-        UPDATE_OBJECT,
-        UPDATE_STATIC_IMAGE,
-        GENERATE_FABRIC_EXPORTED,
-      },
-    },
-  },
-} = bsimCore;
-
-const _canvasByDOM = canvasByDOM({
+const _canvasByDOM = canvasByDom({
   fabric,
   document: window.document,
 });

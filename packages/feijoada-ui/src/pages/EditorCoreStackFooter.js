@@ -1,14 +1,11 @@
-import * as React from "react";
+import { imageFromURL } from "@fantastic-images/lib/dist/image-from-url";
 import { fabric } from "fabric";
-import * as bsimCore from "@bsim/core";
+import * as React from "react";
 import ListGroup from "react-bootstrap/ListGroup";
 import {
-  NEW_TEXT_SAMPLE_1,
   NEW_IMAGE_SAMPLE_1,
+  NEW_TEXT_SAMPLE_1,
 } from "../utils/Editor/stack-samples";
-const {
-  lib: { imageFromURL },
-} = bsimCore;
 
 const FooterButton = ({ children, ...props }) => (
   <button className="tw-w-full tw-h-full" {...props}>

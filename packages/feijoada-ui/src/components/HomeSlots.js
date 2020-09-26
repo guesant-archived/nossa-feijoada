@@ -1,15 +1,7 @@
+import { UPDATE_OBJECT } from "@fantastic-images/lib/dist/model/mutations/update-object";
 import * as React from "react";
-import * as bsimCore from "@bsim/core";
-import HomeSource from "./HomeSource";
 import padleftArrIndex from "../utils/padleft-arr-index";
-
-const {
-  lib: {
-    model: {
-      mutations: { UPDATE_OBJECT },
-    },
-  },
-} = bsimCore;
+import HomeSource from "./HomeSource";
 
 const HomeListSlots = ({ doc, onUpdateDoc }) => (
   <ul>

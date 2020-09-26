@@ -1,16 +1,10 @@
+import { staticFromURL } from "@fantastic-images/lib/dist/model/static-from-url";
 import * as React from "react";
 import ListGroup from "react-bootstrap/ListGroup";
-import * as bsim from "@bsim/core";
 
 const join = (sep) => (...arr) => arr.join(sep);
 const BASE_ID = "pages--editor---core---static---footer";
 const FILE_INPUT_ID = join("--")(BASE_ID, "-file");
-
-const {
-  lib: {
-    model: { staticFromURL },
-  },
-} = bsim;
 
 const ActionItemListItem = ({ children, ...props }) => (
   <ListGroup.Item

@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "@bsim/core": "../core",
+    "@fantastic-images/core": "link:../../../fantastic-images/packages/core",
+    "@fantastic-images/lib": "link:../../../fantastic-images/packages/lib",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",

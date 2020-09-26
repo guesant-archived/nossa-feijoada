@@ -1,31 +1,31 @@
-import * as React from "react";
 import mdIt from "markdown-it";
+import * as React from "react";
 import Button from "react-bootstrap/Button";
-import HomeAbout from "../contents/HomeAbout.md";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import getPreview from "../utils/get-preview";
-import EDITOR_DEFAULT_TEMPLATE from "../vars/editor-default-template";
 import HomeImportTemplate from "../components/HomeImportTemplate";
 import HomeListSlots from "../components/HomeSlots";
+import HomeAbout from "../contents/HomeAbout.md";
+import getPreview from "../utils/get-preview";
+import EDITOR_DEFAULT_TEMPLATE from "../vars/editor-default-template";
 
 const md = mdIt();
 
 const Home = () => {
   const [about, setAbout] = React.useState("");
-  const [doc, setDoc] = React.useState(EDITOR_DEFAULT_TEMPLATE);
+  const [template, setTemplate] = React.useState(EDITOR_DEFAULT_TEMPLATE);
   const [hasPreviewChanges, setHasPreviewChanges] = React.useState(false);
   const [preview, setPreview] = React.useState("");
   const [autoPreview, setAutoPreview] = React.useState(true);
 
   const onUpdateDoc = (doc) => {
-    setDoc(doc);
+    setTemplate(doc);
     setHasPreviewChanges(true);
   };
 
   const generatePreview = async () => {
     URL.revokeObjectURL(preview);
-    await getPreview({ doc }, { format: "jpeg" }).then((preview) =>
+    await getPreview(template, { format: "jpeg" }).then((preview) =>
       setPreview(preview),
     );
     setHasPreviewChanges(false);
@@ -33,7 +33,7 @@ const Home = () => {
 
   React.useEffect(() => {
     autoPreview && generatePreview();
-  }, [autoPreview, doc]); // eslint-disable-line
+  }, [autoPreview, template]); // eslint-disable-line
 
   React.useEffect(() => {
     const getAbout = async () => {
@@ -66,7 +66,7 @@ const Home = () => {
                   </div>
                   <section>
                     <div className="tw-px-1 tw-py-1">
-                      <HomeListSlots doc={doc} onUpdateDoc={onUpdateDoc} />
+                      <HomeListSlots doc={template} onUpdateDoc={onUpdateDoc} />
                     </div>
                   </section>
                 </div>
