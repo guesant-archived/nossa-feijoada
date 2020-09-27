@@ -1,4 +1,5 @@
 import { Template } from "@fantastic-images/types/src/Template";
+import FileSaver from "file-saver";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
@@ -6,6 +7,8 @@ import { Header } from "../../components/Header";
 import { PlayGroundAbout } from "../../components/PlayGroundAbout";
 import { PlayGroundImportTemplate } from "../../components/PlayGroundImportTemplate";
 import { PlayGroundListSlots } from "../../components/PlayGroundListSlots";
+import { blobAsB64 } from "../../helpers/blob-as-b64";
+import { blobFromURL } from "../../helpers/blob-from-url";
 import { DEFAULT_TEMPLATE } from "../../helpers/default-template";
 import { getPreview } from "../../helpers/get-preview";
 
@@ -28,8 +31,10 @@ export const PlayGroud = () => {
     setHasChanges(false);
   };
   useEffect(() => {
-    autoPreview && generatePreview();
-  });
+    (() => {
+      autoPreview && generatePreview();
+    })();
+  }, [autoPreview, template]);
 
   const extendArgs = { template, updateTemplate };
   return (
@@ -52,11 +57,11 @@ export const PlayGroud = () => {
                     </div>
                   </section>
                 </div>
-                <div className="tw-bg-gray-800 tw-opacity-75 tw-h-1 sm:tw-h-auto sm:tw-w-1 tw-hidden sm:tw-block"></div>
+                <div className="tw-bg-gray-800 tw-opacity-75 tw-h-1 sm:tw-h-auto sm:tw-w-1 tw-hidden sm:tw-block" />
                 <div className="tw-flex-1">
                   <img src={previewImage} alt="Preview" />
                 </div>
-                <div className="tw-bg-gray-800 tw-opacity-75 tw-h-1 sm:tw-h-auto sm:tw-w-1 tw-hidden sm:tw-block"></div>
+                <div className="tw-bg-gray-800 tw-opacity-75 tw-h-1 sm:tw-h-auto sm:tw-w-1 tw-hidden sm:tw-block" />
                 <div className="tw-flex-1">
                   <div className="tw-px-1 tw-py-1">
                     <div>
@@ -70,20 +75,77 @@ export const PlayGroud = () => {
                         <span>Preview Automático</span>
                       </label>
                     </div>
-                    <div className="tw-my-2"></div>
+                    <div className="tw-my-2" />
                     <div>
-                      <div>
-                        <Button
-                          href={previewImage}
-                          download="preview.jpg"
-                          variant="secondary"
-                          className="tw-w-full"
-                          as="a"
-                        >
-                          Baixar Preview
-                        </Button>
-                      </div>
-                      <div className="tw-mb-1"></div>
+                      <div
+                        children={
+                          <Button
+                            title="Aperte alt para baixar o preview"
+                            href={previewImage}
+                            onClick={(e) => {
+                              e.persist();
+                              if (!e.altKey) {
+                                e.preventDefault();
+                                window.open(previewImage, "blank");
+                              }
+                            }}
+                            download="preview.jpg"
+                            variant="secondary"
+                            className="tw-w-full"
+                            as="a"
+                            children={<span>Baixar Preview</span>}
+                          />
+                        }
+                      />
+                      <div className="tw-mb-1" />
+                      <div
+                        children={
+                          <Button
+                            title="Aperte alt para baixar o template"
+                            onClick={async (e) => {
+                              e.persist();
+                              const exportedTemplate = new Blob(
+                                [
+                                  JSON.stringify({
+                                    ...template,
+                                    model: {
+                                      ...template.model,
+                                      staticImages: await Promise.all(
+                                        template.model.staticImages.map(
+                                          async ({ url, ...rest }) => ({
+                                            url: await blobAsB64(
+                                              await blobFromURL(url),
+                                            ),
+                                            ...rest,
+                                          }),
+                                        ),
+                                      ),
+                                    },
+                                  }),
+                                ],
+                                {
+                                  type: "application/json;charset=utf-8",
+                                },
+                              );
+                              if (e.altKey) {
+                                FileSaver.saveAs(
+                                  exportedTemplate,
+                                  "template.json",
+                                );
+                              } else {
+                                window.open(
+                                  URL.createObjectURL(exportedTemplate),
+                                  "blank",
+                                );
+                              }
+                            }}
+                            variant="secondary"
+                            className="tw-w-full"
+                            children={<span>Baixar Template</span>}
+                          />
+                        }
+                      />
+                      <div className="tw-mb-1" />
                       <Button
                         className="tw-w-full"
                         disabled={!hasChanges && !autoPreview}

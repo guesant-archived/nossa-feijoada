@@ -67,6 +67,6 @@ export const EditorCoreDoc = ({
         controlId: getId("-editor", "-model", "-publisher"),
       }}
     />
-    <div className="tw-mb-2"></div>
+    <div className="tw-mb-2" />
   </div>
 );

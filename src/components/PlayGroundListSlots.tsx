@@ -9,7 +9,7 @@ export const PlayGroundListSlots = ({
 }: PlayGroundExtendProps) => {
   const { template } = extendProps;
   return (
-    <ul style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+    <ul style={{ display: "flex", flexDirection: "column", gap: 4 }}>
       {template.model.fabricExported.objects.map((object, idx, { length }) => {
         const slotProps = { ...extendProps, object, idx };
         return (

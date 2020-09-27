@@ -4,20 +4,17 @@ import { fabric } from "fabric";
 import { IImageOptions, ITextboxOptions, Object } from "fabric/fabric-impl";
 import * as React from "react";
 import ListGroup from "react-bootstrap/ListGroup";
-import { EMPTY_IMAGE } from "../helpers/empty-image";
+import { RED_IMAGE } from "../helpers/red-image";
 import { Editor } from "../routes/editor";
 
 const NEW_IMAGE_SAMPLE_1: [string, IImageOptions] = [
-  EMPTY_IMAGE,
+  RED_IMAGE,
   {
     ...{
       top: 10,
       left: 10,
       width: 250,
       height: 250,
-    },
-    ...{
-      backgroundColor: "rgba(255, 0, 0, 0.25)",
     },
   },
 ];
