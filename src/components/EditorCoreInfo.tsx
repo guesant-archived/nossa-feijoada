@@ -42,8 +42,11 @@ const EditorCoreInfoJSON = ({ template }: { template: Template }) => (
       rows={6}
       className="tw-text-black tw-w-full tw-pl-2 tw-py-1"
       value={stringifyFormatted(templatePreview(template))}
-      onClick={({ target }) => {
-        (target as HTMLInputElement).select();
+      onDoubleClick={({ target }) => {
+        (target as HTMLTextAreaElement).select();
+      }}
+      onFocus={({ target }) => {
+        (target as HTMLTextAreaElement).select();
       }}
     ></textarea>
   </div>
