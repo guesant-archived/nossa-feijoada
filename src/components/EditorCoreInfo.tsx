@@ -35,30 +35,45 @@ const templateExport = async (template: Template) => ({
   },
 });
 
-const EditorCoreInfoJSON = ({ template }: { template: Template }) => (
-  <div className="tw-px-1 tw-py-1">
-    <textarea
-      readOnly
-      rows={6}
-      className="tw-text-black tw-w-full tw-pl-2 tw-py-1"
-      value={stringifyFormatted(templatePreview(template))}
-      onDoubleClick={({ target }) => {
-        (target as HTMLTextAreaElement).select();
-      }}
-      onFocus={({ target }) => {
-        (target as HTMLTextAreaElement).select();
-      }}
-    ></textarea>
-  </div>
-);
-
-export const EditorCoreInfo = ({
+const EditorCoreInfoJSON = ({
   editor: {
     state: { template },
+    updateTemplate,
   },
 }: {
   editor: Editor;
 }) => {
+  const [readOnly, setReadOnly] = React.useState(true);
+  return (
+    <div className="tw-px-1 tw-py-1">
+      <textarea
+        readOnly={readOnly}
+        rows={6}
+        className="tw-text-black tw-w-full tw-pl-2 tw-py-1"
+        value={stringifyFormatted(templatePreview(template))}
+        onClick={(e) => {
+          if (e.altKey) {
+            setReadOnly(!readOnly);
+          }
+        }}
+        onChange={(e) => {
+          updateTemplate(JSON.parse(e.target.value) as Template);
+        }}
+        onDoubleClick={({ target }) => {
+          (target as HTMLTextAreaElement).select();
+        }}
+        onFocus={({ target }) => {
+          (target as HTMLTextAreaElement).select();
+        }}
+      />
+    </div>
+  );
+};
+
+export const EditorCoreInfo = ({ editor }: { editor: Editor }) => {
+  const {
+    state: { template },
+  } = editor;
   const [isJSONVisible, setJSONVisibility] = React.useState(false);
   return (
     <div>
@@ -93,9 +108,7 @@ export const EditorCoreInfo = ({
           </Button>
         </div>
       </div>
-      <div
-        children={isJSONVisible && <EditorCoreInfoJSON template={template} />}
-      />
+      <div children={isJSONVisible && <EditorCoreInfoJSON editor={editor} />} />
     </div>
   );
 };

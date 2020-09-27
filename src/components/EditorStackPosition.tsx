@@ -29,7 +29,7 @@ export const EditorStackPosition = ({
         type: "number",
         value: object.left,
         onChange: ({ target: { value } }) => {
-          updateObject({ ...object, left: parseInt(value) });
+          updateObject({ ...object, left: +value });
         },
       },
     ],
@@ -39,24 +39,28 @@ export const EditorStackPosition = ({
         type: "number",
         value: object.top,
         onChange: ({ target: { value } }) => {
-          updateObject({ ...object, top: parseInt(value) });
+          updateObject({ ...object, top: +value });
         },
       },
     ],
     [
-      { children: "cX" },
+      { children: "bWth" },
       {
         type: "number",
-        defaultValue: object.width * object.scaleX,
-        readOnly: true,
+        value: object.width * object.scaleX,
+        onChange: ({ target: { value } }) => {
+          updateObject({ ...object, scaleX: +value / object.width });
+        },
       },
     ],
     [
-      { children: "cY" },
+      { children: "bHgt" },
       {
         type: "number",
-        defaultValue: object.height * object.scaleY,
-        readOnly: true,
+        value: object.height * object.scaleY,
+        onChange: ({ target: { value } }) => {
+          updateObject({ ...object, scaleY: +value / object.height });
+        },
       },
     ],
     [
@@ -65,7 +69,7 @@ export const EditorStackPosition = ({
         type: "number",
         value: object.width,
         onChange: ({ target: { value } }) => {
-          updateObject({ ...object, width: parseInt(value) });
+          updateObject({ ...object, width: +value });
         },
       },
     ],
@@ -75,7 +79,7 @@ export const EditorStackPosition = ({
         type: "number",
         value: object.height,
         onChange: ({ target: { value } }) => {
-          updateObject({ ...object, height: parseInt(value) });
+          updateObject({ ...object, height: +value });
         },
       },
     ],
@@ -85,7 +89,7 @@ export const EditorStackPosition = ({
         type: "number",
         value: object.scaleX,
         onChange: ({ target: { value } }) => {
-          updateObject({ ...object, scaleX: parseInt(value) });
+          updateObject({ ...object, scaleX: +value });
         },
       },
     ],
@@ -95,7 +99,7 @@ export const EditorStackPosition = ({
         type: "number",
         value: object.scaleY,
         onChange: ({ target: { value } }) => {
-          updateObject({ ...object, scaleY: parseInt(value) });
+          updateObject({ ...object, scaleY: +value });
         },
       },
     ],
@@ -116,9 +120,10 @@ export const EditorStackPosition = ({
         <div
           style={{
             display: "grid",
-            gap: 2,
+            gap: 4,
             gridTemplateColumns:
-              "minmax(10px, 20px) 80px minmax(10px, 20px) 80px",
+              "minmax(30px,auto) 90px minmax(30px,auto) 90px",
+            alignItems: "center",
           }}
         >
           {inputs
@@ -140,7 +145,7 @@ export const EditorStackPosition = ({
                 <label htmlFor={id} className="tw-mb-0" {...labelProps} />
                 <input
                   id={id}
-                  className="tw-border-solid tw-border-2 tw-px-1"
+                  className="tw-border-solid tw-border-2 tw-px-1 tw-py-2 tw-mr-2"
                   style={{ maxWidth: "100%" }}
                   {...controlProps}
                 />
